@@ -15,10 +15,7 @@ import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import {BarChartModule, LineChartModule} from "@swimlane/ngx-charts";
-import {MatCardModule} from "@angular/material/card";
-import {ChartModule} from "primeng/chart";
-import {AppModule} from "../../app.module";
+
 
 
 @NgModule({
@@ -27,12 +24,7 @@ import {AppModule} from "../../app.module";
         RouterModule.forChild(AdminLayoutRoutes),
         FormsModule,
         LbdModule,
-        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'}),
-        LineChartModule,
-        MatCardModule,
-        BarChartModule,
-        ChartModule,
-        AppModule
+        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'})
     ],
   declarations: [
     HomeComponent,

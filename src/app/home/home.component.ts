@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 
-import * as shape from 'd3-shape';
+import {DayChartComponent} from "../day-chart/day-chart.component";
 
 @Component({
   selector: 'app-home',
