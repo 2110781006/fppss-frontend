@@ -15,7 +15,8 @@ import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-
+import {DayChartComponent} from "../../day-chart/day-chart.component";
+import {ChartModule} from "primeng/chart";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
         RouterModule.forChild(AdminLayoutRoutes),
         FormsModule,
         LbdModule,
-        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'})
+        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'}),
+        ChartModule
     ],
   declarations: [
     HomeComponent,
@@ -33,7 +35,8 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
     TypographyComponent,
     IconsComponent,
     MapsComponent,
-    NotificationsComponent
+    NotificationsComponent,
+      DayChartComponent
   ]
 })
 

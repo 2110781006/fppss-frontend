@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 
-import {DayChartComponent} from "../day-chart/day-chart.component";
+
 
 @Component({
   selector: 'app-home',

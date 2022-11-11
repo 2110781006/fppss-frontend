@@ -12,8 +12,6 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { AppComponent } from './app.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { DayChartComponent } from './day-chart/day-chart.component';
-import {ChartModule} from "primeng/chart";
 
 
 @NgModule({
@@ -25,17 +23,15 @@ import {ChartModule} from "primeng/chart";
         NavbarModule,
         FooterModule,
         SidebarModule,
-        AppRoutingModule,
-        ChartModule
+        AppRoutingModule
     ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
-    DayChartComponent
+    AdminLayoutComponent
   ],
   providers: [],
   exports: [
-    DayChartComponent
+
   ],
   bootstrap: [AppComponent]
 })
