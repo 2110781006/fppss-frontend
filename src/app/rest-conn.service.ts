@@ -15,29 +15,94 @@ export class RestConnService {
     this._url = "http://"+window.location.hostname+":"+this._port+"/api/v1/";
   }
 
-  getConsumptionValuesHandler(): Observable<any>
+  getConsumptionValuesHandler(type:String, res:String, date:Date): Observable<any>
   {
-    var today = new Date();
+    let startStr = "";
+    let endStr = "";
 
-    var year = today.getFullYear();
-    var month = today.getMonth()
+    if ( res == "day" )
+    {
+      let year = date.getFullYear();
+      let month = date.getMonth();
 
-    var start = new Date(year,month,1);
-    var end = new Date(start);
-    end.setMonth(start.getMonth()+1);
-console.log(start);
-    console.log(":::"+start.getUTCFullYear()+"-"+start.getUTCMonth()+"-"+start.getUTCDate()+":::"+end.toUTCString());
+      let start = new Date(year, month, 1);
+      let end = new Date(start);
+      end.setMonth(start.getMonth() + 1);
 
-    var a = start.getUTCMonth() + 1;
-    var b = end.getUTCMonth() + 1;
+      let a = start.getUTCMonth() + 1;
+      let b = end.getUTCMonth() + 1;
 
-    var startStr = start.getUTCFullYear()+"-"+String(a).padStart(2,"0")+"-"+String(start.getUTCDate()).padStart(2,"0")+"%20"+start.getUTCHours()+"%3A00%3A00";
-    var endStr = end.getUTCFullYear()+"-"+String(b).padStart(2,"0")+"-"+String(end.getUTCDate()).padStart(2,"0")+"%20"+end.getUTCHours()+"%3A00%3A00";
-console.log(startStr);
-console.log(endStr);
+      startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + start.getUTCHours() + "%3A00%3A00";
+      endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + end.getUTCHours() + "%3A00%3A00";
+    }
+    else if ( res == "hour" )
+    {
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
 
-    return this._httpClient.get(this._url+"values/feedin/day/1/"+startStr+"/"+endStr+"");
-    //return this._httpClient.get(this._url+"values/feedin/day/1/2022-10-01%2000%3A00%3A00/2022-10-10%2000%3A00%3A00");
+      let start = new Date(year, month, day);
+      let end = new Date(start);
+      end.setDate(start.getDate() + 1);
+
+      let a = start.getUTCMonth() + 1;
+      let b = end.getUTCMonth() + 1;
+      let c = start.getUTCHours() ;
+      let d = end.getUTCHours() ;
+
+      startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + String(c).padStart(2, "0") + "%3A00%3A00";
+      endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + String(d).padStart(2, "0") + "%3A00%3A00";
+    }
+    console.log(startStr);
+    console.log(endStr);
+    console.log(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"");
+
+    return this._httpClient.get(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"");
+  }
+
+  public getValues(type:String, res:String, date:Date): Observable<any>
+  {
+    let startStr = "";
+    let endStr = "";
+
+    if ( res == "day" )
+    {
+      let year = date.getFullYear();
+      let month = date.getMonth();
+
+      let start = new Date(year, month, 1);
+      let end = new Date(start);
+      end.setMonth(start.getMonth() + 1);
+
+      let a = start.getUTCMonth() + 1;
+      let b = end.getUTCMonth() + 1;
+
+      startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + start.getUTCHours() + "%3A00%3A00";
+      endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + end.getUTCHours() + "%3A00%3A00";
+    }
+    else if ( res == "hour" )
+    {
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+
+      let start = new Date(year, month, day);
+      let end = new Date(start);
+      end.setDate(start.getDate() + 1);
+
+      let a = start.getUTCMonth() + 1;
+      let b = end.getUTCMonth() + 1;
+      let c = start.getUTCHours() ;
+      let d = end.getUTCHours() ;
+
+      startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + String(c).padStart(2, "0") + "%3A00%3A00";
+      endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + String(d).padStart(2, "0") + "%3A00%3A00";
+    }
+    console.log(startStr);
+    console.log(endStr);
+    console.log(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"");
+
+    return this._httpClient.get(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"");
   }
 
 

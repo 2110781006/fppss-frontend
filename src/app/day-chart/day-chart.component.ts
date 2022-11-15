@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {RestConnService} from "../rest-conn.service";
+import {UIChart} from "primeng/chart";
+
+
 
 @Component({
   selector: 'app-day-chart',
@@ -8,6 +11,11 @@ import {RestConnService} from "../rest-conn.service";
   styleUrls: ['./day-chart.component.scss']
 })
 export class DayChartComponent implements OnInit {
+
+  @ViewChild('chart')
+  chart: UIChart;
+
+  selectedDate:any;
 
   basicData:any;
   basicOptions: any;
@@ -20,82 +28,133 @@ export class DayChartComponent implements OnInit {
       plugins: {
         legend: {
           labels: {
-            color: '#15599c'
+            color: '#333333'
           }
         }
       },
       scales: {
         x: {
+          stacked: true,
           ticks: {
             color: '#501065'
           },
           grid: {
-            color: 'rgba(255,255,255,0.2)'
+            color: 'rgba(211,211,211,0.85)'
           }
         },
         y: {
+          stacked: true,
           ticks: {
-            color: '#ebedef'
+            color: '#501065',
+            callback: function(value, index, ticks) {
+              return value+' kWh';}
           },
           grid: {
-            color: 'rgba(255,255,255,0.2)'
+            color: 'rgba(211,211,211,0.85)'
           }
         }
       }
     };
 
-    var userId = 1;
+    let yesterday = new Date();
 
-    //var restConn : RestConn;
+    yesterday.setDate(yesterday.getDate()-1);
 
-    //get provideraccounts of user
-    console.log(this.restConn.port);
-    console.log(this.restConn.url);
-    this.restConn.getConsumptionValuesHandler().subscribe((response)=>{
+    this.selectedDate = yesterday;
 
-      /*this.basicData = {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [
-              {
-                  label: 'My First dataset',
-                  backgroundColor: '#42A5F5',
-                  data: [65, 59, 80, 81, 56, 55, 40]
-              },
-              {
-                  label: 'My Second dataset',
-                  backgroundColor: '#FFA726',
-                  data: [28, 48, 40, 19, 86, 27, 90]
-              }
-          ]
-      };*/
-      console.log(response);
+    this.onRefresh(this.chart);
+  }
 
-      this.basicData = {
-        labels: [],
-        datasets: [{
-          label: 'My First dataset',
-          backgroundColor: '#42A5F5',
-          data: []
-        }]
-      }
+  onRefresh(chart:UIChart)
+  {
+    let selDate = this.selectedDate;
 
-      for ( var z of response )
-      {
-        this.basicData.labels.push(z.timestamp);
-        this.basicData.datasets[0].data.push(z.value);
-      }
+    this.basicData = {
+      labels: [],
+      datasets: []
+    }
+
+    for ( let i = 0; i < 24; i++ )
+    {
+      let timeStr: String = String(i).padStart(2, "0") + ":00";
+      this.basicData.labels.push(timeStr);
+    }
+
+    this.restConn.getConsumptionValuesHandler("feedin", "hour", selDate).subscribe((response)=>{
+
+      this.addDataset(response, 'Einspeisung [kWh]', 'rgba(129,201,91,0.85)', true);
+
+      this.restConn.getConsumptionValuesHandler("production", "hour", selDate).subscribe((response2)=>{
+
+        this.addDataset(response2, 'Verbrauch aus Produktion [kWh]', 'rgba(14,169,252,0.85)', false);
+
+        this.restConn.getConsumptionValuesHandler("consumption", "hour", selDate).subscribe((response)=>{
+
+          this.addDataset(response, 'Zukauf [kWh]', 'rgba(252,133,14,0.85)', false);
+          this.chart.refresh();
 
 
-      for ( var z of response )
-      {
-        var x = {name:z.timestamp, series:[]};
-        var k = {name:z.name='feedin', value:z.value};
-        x.series.push(k);
-      }
-
-      console.log(x);
-      //this.multi.push(x);
+        });
+      });
     });
+
+
+
+
+  }
+
+  addDataset(response, type, color, minus)
+  {
+
+    console.log(response);
+
+    this.basicData.datasets.push({
+      label: type,
+      backgroundColor: color,
+      data: []
+    });
+
+    let idx : number = 0;
+
+    for ( let i = 0; i < this.basicData.datasets.length; i++ ) {
+      if (this.basicData.datasets[i].label == type) {
+        idx = i;
+        break;
+      }
+    }
+
+    let idxFeedin : number = 0;
+
+    for ( let i = 0; i < this.basicData.datasets.length; i++ ) {
+      if (this.basicData.datasets[i].label == "Einspeisung [kWh]") {
+        idxFeedin = i;
+        break;
+      }
+    }
+
+    for ( let entries of response )
+    {
+      let dateUTC = new Date(entries.timestamp);
+      let dateLocal = new Date(Date.UTC(dateUTC.getFullYear(), dateUTC.getMonth(), dateUTC.getDate(), dateUTC.getHours(), 0, 0, 0));
+
+      let timeStr : String = String(dateLocal.getUTCHours()).padStart(2, "0")+":00";
+
+      if ( !this.basicData.labels.includes(timeStr) )
+        this.basicData.datasets[idx].data.push(0);
+      else {
+        if ( type == "Verbrauch aus Produktion [kWh]" )
+        {
+          let valFeedin = this.basicData.datasets[idxFeedin].data[this.basicData.datasets[idx].data.length];
+          let valProd = entries.value;
+          let delta = valProd+valFeedin;
+
+          this.basicData.datasets[idx].data.push(delta > 0?delta:0);
+        }
+        else
+          this.basicData.datasets[idx].data.push(minus ? entries.value * -1 : entries.value);
+      }
+    }
+
   }
 
 }

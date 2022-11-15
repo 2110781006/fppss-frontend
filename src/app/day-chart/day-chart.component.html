@@ -1,6 +1,18 @@
-<p>day-chart works!</p>
+<div class="formgroup-inline" xmlns:p="http://www.w3.org/1999/xhtml" xmlns:p="http://www.w3.org/1999/xhtml">
+    <label for="dayDatePicker">Tag:</label>
+    <p-calendar style="margin-left: 5px;" id="dayDatePicker" [(ngModel)]="selectedDate" [showIcon]="true" inputId="icon"></p-calendar>
+    <p-button style="margin-left: 5px;" (click)="onRefresh(chart)" icon="pi pi-refresh"></p-button>
+</div>
 
-<p-chart type="bar"
-         [data]="basicData"
-         [options]="basicOptions">
-</p-chart>
+<div class="row">
+    <div class="col-md-8">
+        <p-chart #chart type="bar"
+                 [data]="basicData"
+                 [options]="basicOptions">
+        </p-chart>
+    </div>
+    <div class="col-md-4"><p-card header="Tag gesamt:">
+        <ng-template pTemplate="header"></ng-template>
+        <p-chart type="pie"></p-chart>
+    </p-card></div>
+</div>
