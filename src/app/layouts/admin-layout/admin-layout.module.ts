@@ -24,10 +24,12 @@ import {TableModule} from "primeng/table";
 import {DayViewComponent} from "../../day-view/day-view.component";
 import {MonthViewComponent} from "../../month-view/month-view.component";
 import {YearViewComponent} from "../../year-view/year-view.component";
+import {FullViewComponent} from "../../full-view/full-view.component";
 
 import {DayChartComponent} from "../../day-chart/day-chart.component";
 import {MonthChartComponent} from "../../month-chart/month-chart.component";
 import {YearChartComponent} from "../../year-chart/year-chart.component";
+import {FullChartComponent} from "../../full-chart/full-chart.component";
 
 
 @NgModule({
@@ -54,10 +56,12 @@ import {YearChartComponent} from "../../year-chart/year-chart.component";
     DayViewComponent,
     MonthViewComponent,
     YearViewComponent,
+    FullViewComponent,
 
     DayChartComponent,
     MonthChartComponent,
-    YearChartComponent
+    YearChartComponent,
+    FullChartComponent
   ]
 })
 

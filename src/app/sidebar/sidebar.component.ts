@@ -11,7 +11,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/day-view', title: 'Tagesansicht',  icon: 'pe-7s-graph2', class: '' },
     { path: '/month-view', title: 'Monatsansicht',  icon: 'pe-7s-graph2', class: '' },
     { path: '/year-view', title: 'Jahresansicht',  icon: 'pe-7s-graph2', class: '' },
-    { path: '/icons', title: 'Gesamtansicht',  icon: 'pe-7s-graph2', class: '' },
+    { path: '/full-view', title: 'Gesamtansicht',  icon: 'pe-7s-graph2', class: '' },
     /*{ path: '/user', title: 'User Profile',  icon:'pe-7s-user', class: '' },
     { path: '/table', title: 'Table List',  icon:'pe-7s-note2', class: '' },
     { path: '/typography', title: 'Typography',  icon:'pe-7s-news-paper', class: '' },

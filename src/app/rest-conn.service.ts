@@ -20,14 +20,24 @@ export class RestConnService {
     let startStr = "";
     let endStr = "";
 
-    if ( res == "month" )
+    if ( res == "year" )
+    {
+      let start = new Date(2000, 0, 1);
+      let end = new Date(3000, 0, 1);
+
+      let a = start.getUTCMonth() + 1;
+      let b = end.getUTCMonth() + 1;
+
+      startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + start.getUTCHours() + "%3A00%3A00";
+      endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + end.getUTCHours() + "%3A00%3A00";
+    }
+    else if ( res == "month" )
     {
       let year = date.getFullYear();
       let month = date.getMonth();
 
       let start = new Date(year, 0, 1);
       let end = new Date((year+1), 0, 1);
-      //end.setFullYear(start.getFullYear() + 1);
 
       let a = start.getUTCMonth() + 1;
       let b = end.getUTCMonth() + 1;
