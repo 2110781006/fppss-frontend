@@ -1,6 +1,6 @@
 <div class="formgroup-inline" xmlns:p="http://www.w3.org/1999/xhtml" xmlns:p="http://www.w3.org/1999/xhtml">
-    <label for="dayDatePicker" >Tag:</label>
-    <p-calendar style="margin-left: 5px;" dateFormat="dd.mm.yy" id="dayDatePicker" [(ngModel)]="selectedDate" [showIcon]="true" inputId="icon"></p-calendar>
+    <label for="datePicker" >Tag:</label>
+    <p-calendar style="margin-left: 5px;" view="month" dateFormat="mm/yy" id="datePicker" [(ngModel)]="selectedDate" [showIcon]="true" inputId="icon"></p-calendar>
     <p-button style="margin-left: 5px;" (click)="onRefresh(chart)" icon="pi pi-refresh"></p-button>
 </div>
 
@@ -12,10 +12,10 @@
         </p-chart>
     </div>
     <div class="col-md-3">
-        <p-card header="Tag gesamt:">
+        <p-card header="Monat gesamt:">
 
             <div class="content">
-                <p-chart #pieChart  type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+                <p-chart #pieChart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
 
 
                 <div class="content table-full-width">

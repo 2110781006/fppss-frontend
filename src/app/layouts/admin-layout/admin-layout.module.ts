@@ -20,7 +20,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {CalendarModule} from "primeng/calendar";
 import {DayViewComponent} from "../../day-view/day-view.component";
+import {MonthViewComponent} from "../../month-view/month-view.component";
 import {CardModule} from "primeng/card";
+import {TableModule} from "primeng/table";
+import {MonthChartComponent} from "../../month-chart/month-chart.component";
 
 
 @NgModule({
@@ -34,17 +37,20 @@ import {CardModule} from "primeng/card";
         MatFormFieldModule,
         MatDatepickerModule,
         CalendarModule,
-        CardModule
+        CardModule,
+        TableModule
     ],
   declarations: [
     HomeComponent,
     DayViewComponent,
+    MonthViewComponent,
     UserComponent,
     TablesComponent,
     TypographyComponent,
     IconsComponent,
     NotificationsComponent,
-      DayChartComponent
+    DayChartComponent,
+    MonthChartComponent
   ]
 })
 

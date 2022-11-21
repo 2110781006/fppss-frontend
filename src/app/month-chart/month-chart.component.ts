@@ -6,11 +6,11 @@ import {UIChart} from "primeng/chart";
 
 
 @Component({
-  selector: 'app-day-chart',
-  templateUrl: './day-chart.component.html',
-  styleUrls: ['./day-chart.component.scss']
+  selector: 'app-month-chart',
+  templateUrl: './month-chart.component.html',
+  styleUrls: ['./month-chart.component.scss']
 })
-export class DayChartComponent implements OnInit {
+export class MonthChartComponent implements OnInit {
 
   @ViewChild('chart')
   chart: UIChart;
@@ -62,18 +62,21 @@ export class DayChartComponent implements OnInit {
       }
     };
 
-    let yesterday = new Date();
-
-    yesterday.setDate(yesterday.getDate()-1);
-
-    this.selectedDate = yesterday;
+    this.selectedDate = new Date();
 
     this.onRefresh(this.chart);
+  }
+
+  getDaysInMonth(year, month) : number
+  {
+    return new Date(year, month, 0).getDate();
   }
 
   onRefresh(chart:UIChart)
   {
     let selDate = this.selectedDate;
+
+    let dayCount = this.getDaysInMonth(selDate.getFullYear(), selDate.getMonth()+1);
 
     this.basicData = {
       labels: [],
@@ -90,21 +93,21 @@ export class DayChartComponent implements OnInit {
     $('#used').html("");
     $('#buy').html("");
 
-    for ( let i = 0; i < 24; i++ )
+    for ( let i = 1; i <= dayCount; i++ )
     {
-      let timeStr: String = String(i).padStart(2, "0") + ":00";
+      let timeStr: String = String(i).padStart(2, "0");
       this.basicData.labels.push(timeStr);
     }
 
-    this.restConn.getConsumptionValuesHandler("feedin", "hour", selDate).subscribe((response)=>{
+    this.restConn.getConsumptionValuesHandler("feedin", "day", selDate).subscribe((response)=>{
 
       this.addDataset(response, 'Einspeisung [kWh]', 'rgba(129,201,91,0.85)', true);
 
-      this.restConn.getConsumptionValuesHandler("production", "hour", selDate).subscribe((response2)=>{
+      this.restConn.getConsumptionValuesHandler("production", "day", selDate).subscribe((response2)=>{
 
         this.addDataset(response2, 'Verbrauch aus Produktion [kWh]', 'rgba(14,169,252,0.85)', false);
 
-        this.restConn.getConsumptionValuesHandler("consumption", "hour", selDate).subscribe((response)=>{
+        this.restConn.getConsumptionValuesHandler("consumption", "day", selDate).subscribe((response)=>{
 
           this.addDataset(response, 'Zukauf [kWh]', 'rgba(252,133,14,0.85)', false);
           this.chart.refresh();
@@ -196,26 +199,30 @@ export class DayChartComponent implements OnInit {
       }
     }
 
+    for ( let lbl of this.basicData.labels )//fill with empty data
+      this.basicData.datasets[idx].data.push(0);
+
     for ( let entries of response )
     {
       let dateUTC = new Date(entries.timestamp);
       let dateLocal = new Date(Date.UTC(dateUTC.getFullYear(), dateUTC.getMonth(), dateUTC.getDate(), dateUTC.getHours(), 0, 0, 0));
 
-      let timeStr : String = String(dateLocal.getUTCHours()).padStart(2, "0")+":00";
+      let timeStr : String = String(dateLocal.getUTCDate()).padStart(2, "0");
 
-      if ( !this.basicData.labels.includes(timeStr) )
-        this.basicData.datasets[idx].data.push(0);
-      else {
+      let insertIdx = this.basicData.labels.indexOf(timeStr);
+
+      if ( insertIdx >= 0 )
+      {
         if ( type == "Verbrauch aus Produktion [kWh]" )
         {
-          let valFeedin = this.basicData.datasets[idxFeedin].data[this.basicData.datasets[idx].data.length];
+          let valFeedin = this.basicData.datasets[idxFeedin].data[insertIdx];
           let valProd = entries.value;
           let delta = valProd+valFeedin;
 
-          this.basicData.datasets[idx].data.push(delta > 0?delta:0);
+          this.basicData.datasets[idx].data[insertIdx] = (delta > 0?delta:0);
         }
         else
-          this.basicData.datasets[idx].data.push(minus ? entries.value * -1 : entries.value);
+          this.basicData.datasets[idx].data[insertIdx] = (minus ? entries.value * -1 : entries.value);
       }
     }
 
