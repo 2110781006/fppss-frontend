@@ -14,16 +14,20 @@ import { TablesComponent } from '../../tables/tables.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import {DayChartComponent} from "../../day-chart/day-chart.component";
 import {ChartModule} from "primeng/chart";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {CalendarModule} from "primeng/calendar";
-import {DayViewComponent} from "../../day-view/day-view.component";
-import {MonthViewComponent} from "../../month-view/month-view.component";
 import {CardModule} from "primeng/card";
 import {TableModule} from "primeng/table";
+
+import {DayViewComponent} from "../../day-view/day-view.component";
+import {MonthViewComponent} from "../../month-view/month-view.component";
+import {YearViewComponent} from "../../year-view/year-view.component";
+
+import {DayChartComponent} from "../../day-chart/day-chart.component";
 import {MonthChartComponent} from "../../month-chart/month-chart.component";
+import {YearChartComponent} from "../../year-chart/year-chart.component";
 
 
 @NgModule({
@@ -42,15 +46,18 @@ import {MonthChartComponent} from "../../month-chart/month-chart.component";
     ],
   declarations: [
     HomeComponent,
-    DayViewComponent,
-    MonthViewComponent,
     UserComponent,
     TablesComponent,
-    TypographyComponent,
     IconsComponent,
     NotificationsComponent,
+
+    DayViewComponent,
+    MonthViewComponent,
+    YearViewComponent,
+
     DayChartComponent,
-    MonthChartComponent
+    MonthChartComponent,
+    YearChartComponent
   ]
 })
 

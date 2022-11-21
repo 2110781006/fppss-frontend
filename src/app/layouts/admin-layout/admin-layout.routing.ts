@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { HomeComponent } from '../../home/home.component';
+import { YearViewComponent } from '../../year-view/year-view.component';
 import { DayViewComponent } from '../../day-view/day-view.component';
 import { MonthViewComponent } from '../../month-view/month-view.component';
 import { UserComponent } from '../../user/user.component';
@@ -12,7 +12,7 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 export const AdminLayoutRoutes: Routes = [
     { path: 'day-view',       component: DayViewComponent },
     { path: 'month-view',     component: MonthViewComponent },
-    { path: 'dashboard',      component: HomeComponent },
+    { path: 'year-view',      component: YearViewComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TablesComponent },
     { path: 'typography',     component: TypographyComponent },
