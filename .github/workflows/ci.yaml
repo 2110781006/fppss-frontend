@@ -9,7 +9,7 @@ jobs:
       - name: Setup Node-Environment
         uses: "actions/setup-node@v2"
         with:
-          node-version: '12'
+          node-version: '19'
       - name: Build optimized web application
         run: |
           npm ci
