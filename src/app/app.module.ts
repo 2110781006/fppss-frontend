@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -12,7 +12,22 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { AppComponent } from './app.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
+function initializeKeycloak(keycloak: KeycloakService) {
+    return () => keycloak.init({
+            config: {
+                url: 'https://fppss.duckdns.org:8443/',
+                realm: 'FppssRealm',
+                clientId: 'fppss-login'
+            },
+            initOptions: {
+                onLoad: 'login-required'
+                /*silentCheckSsoRedirectUri:
+                    window.location.origin + '/assets/verificar-sso.html'*/
+            }
+        });
+}
 
 @NgModule({
     imports: [
@@ -23,13 +38,19 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
         NavbarModule,
         FooterModule,
         SidebarModule,
-        AppRoutingModule
+        AppRoutingModule,
+        KeycloakAngularModule
     ],
   declarations: [
     AppComponent,
     AdminLayoutComponent
   ],
-  providers: [],
+  providers: [{
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+  }],
   exports: [
 
   ],

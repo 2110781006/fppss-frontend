@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {KeycloakService} from "keycloak-angular";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +12,10 @@ export class RestConnService {
   private _url : string;
   private _port : number = 8080;
 
-  constructor(private _httpClient : HttpClient)
+  constructor(private _httpClient : HttpClient, private readonly keycloak: KeycloakService)
   {
-    this._url = "http://"+window.location.hostname+":"+this._port+"/api/v1/";
+    //this._url = "https://"+window.location.hostname+":"+this._port+"/api/v1/";
+    this._url = environment.FPPSS_REST_URL;
   }
 
   getConsumptionValuesHandler(type:String, res:String, date:Date): Observable<any>
@@ -20,6 +23,10 @@ export class RestConnService {
     let startStr = "";
     let endStr = "";
 
+    let token = this.keycloak.getKeycloakInstance().token;
+    console.log("-----token-----");
+    console.log(token);
+    console.log("-----token-----");
     if ( res == "year" )
     {
       let start = new Date(2000, 0, 1);
@@ -78,11 +85,21 @@ export class RestConnService {
       startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + String(c).padStart(2, "0") + "%3A00%3A00";
       endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + String(d).padStart(2, "0") + "%3A00%3A00";
     }
-    console.log(startStr);
-    console.log(endStr);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+token
+    });
+
+    const requestOptions = { headers: headers };
+console.log("requestOptions");
+console.log(requestOptions);
+
     console.log(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"");
 
-    return this._httpClient.get(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"");
+    this._httpClient
+
+    return this._httpClient.get(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"", requestOptions);
   }
 
   public getValues(type:String, res:String, date:Date): Observable<any>
