@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  FPPSS_REST_URL: 'https://fppss-demo.thomasst.xyz/api/v1/'
+  FPPSS_REST_URL: 'https://fppss.duckdns.org:8080/api/v1/'
 };

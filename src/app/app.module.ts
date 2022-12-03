@@ -17,9 +17,9 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 function initializeKeycloak(keycloak: KeycloakService) {
     return () => keycloak.init({
             config: {
-                url: 'https://fppss-demo-sso.thomasst.xyz/',
-                realm: 'fppss-demo',
-                clientId: 'fppss-demo'
+                url: 'https://fppss.duckdns.org:8443/',
+                realm: 'FppssRealm',
+                clientId: 'fppss-login'
             },
             initOptions: {
                 onLoad: 'login-required'
