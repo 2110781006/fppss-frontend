@@ -24,9 +24,7 @@ export class RestConnService {
     let endStr = "";
 
     let token = this.keycloak.getKeycloakInstance().token;
-    console.log("-----token-----");
-    console.log(token);
-    console.log("-----token-----");
+
     if ( res == "year" )
     {
       let start = new Date(2000, 0, 1);
@@ -92,8 +90,6 @@ export class RestConnService {
     });
 
     const requestOptions = { headers: headers };
-console.log("requestOptions");
-console.log(requestOptions);
 
     console.log(this._url+"values/"+type+"/"+res+"/1/"+startStr+"/"+endStr+"");
 

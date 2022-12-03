@@ -14,15 +14,19 @@ import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
+import {environment} from "../environments/environment";
+
 function initializeKeycloak(keycloak: KeycloakService) {
     return () => keycloak.init({
             config: {
-                url: 'https://fppss.duckdns.org:8443/',
-                realm: 'FppssRealm',
-                clientId: 'fppss-login'
+                url: environment.FPPSS_KEYCLOAK_URL,
+                realm: environment.FPPSS_KEYCLOAK_REALM,
+                clientId: environment.FPPSS_KEYCLOAK_CLIENT_ID
             },
             initOptions: {
-                onLoad: 'login-required'
+                onLoad: 'login-required',
+                // this will solved  the firefox error error
+                checkLoginIframe: false
                 /*silentCheckSsoRedirectUri:
                     window.location.origin + '/assets/verificar-sso.html'*/
             }
