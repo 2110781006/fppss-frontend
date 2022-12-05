@@ -1,12 +1,12 @@
 <div class="formgroup-inline" xmlns:p="http://www.w3.org/1999/xhtml" xmlns:p="http://www.w3.org/1999/xhtml">
     <label for="datePicker" >Tag:</label>
-    <p-calendar style="margin-left: 5px;" view="month" dateFormat="mm/yy" id="datePicker" [(ngModel)]="selectedDate" [showIcon]="true" inputId="icon"></p-calendar>
+    <p-calendar [readonlyInput]="true" style="margin-left: 5px;" view="month" dateFormat="mm/yy" id="datePicker" [(ngModel)]="selectedDate" [showIcon]="true" inputId="icon"></p-calendar>
     <p-button style="margin-left: 5px;" (click)="onRefresh(chart)" icon="pi pi-refresh"></p-button>
 </div>
 
 <div class="row">
     <div class="col-md-9">
-        <p-chart #chart type="bar"
+        <p-chart  height="65vh" #chart type="bar"
                  [data]="basicData"
                  [options]="basicOptions">
         </p-chart>

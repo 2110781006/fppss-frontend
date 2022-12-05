@@ -1,7 +1,7 @@
 
 <div class="sidebar-wrapper">
     <div class="logo">
-        <a href="" class="simple-text">
+        <a href="" class="simple-text" style="font-size: 20px;">
             <div class="logo-img">
                 <img src="/assets/img/fppss-logo.png"/>
             </div>
@@ -17,21 +17,22 @@
         </li>
 
         <li *ngIf="isMobileMenu()">
-            <a href="">
+            <a href="#/user">
                 <p>Account</p>
             </a>
         </li>
 
         <li *ngIf="isMobileMenu()">
-            <a>
+            <a (click)="onLogout()">
                 <p>Log out</p>
             </a>
         </li>
         <li class="separator hidden-lg hidden-md" *ngIf="isMobileMenu()"></li>
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}}">
-            <a  [routerLink]="[menuItem.path]">
-                <i class="{{menuItem.icon}}"></i>
-                <p>{{menuItem.title}}</p>
+            <a  [routerLink]="[menuItem.path]" style="display: flex;">
+                <!--<i class="{{menuItem.icon}}"></i>-->
+                <img [src]="[menuItem.img]">
+                <p style="text-transform: none;font-size: 16px;font-weight: 500;margin: 2px 0 0 10px;">{{menuItem.title}}</p>
             </a>
         </li>
     </ul>

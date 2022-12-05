@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
         if (this.isLogueado) {
             this.perfilUsuario = await this.keycloak.loadUserProfile();
-        }console.log(this.perfilUsuario);
+        }//console.log(this.perfilUsuario);
     }
 
     public loginSession() {
