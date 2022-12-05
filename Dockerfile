@@ -1,10 +1,19 @@
-FROM node:19 as build
+#################
+# Build the app #
+#################
+FROM node:19-alpine as build
 WORKDIR /app
-COPY . .
+COPY package.json package-lock.json ./
 RUN npm install --legacy-peer-deps
-RUN npm run build --prod
+COPY . .
+RUN npm install -g @angular/cli --legacy-peer-deps
+RUN ng build --configuration production --output-path=/dist
 
-FROM nginx:1.23
-COPY --from=build /app/dist/ /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+################
+# Run in NGINX #
+################
+FROM nginx:alpine
+COPY --from=build /dist /usr/share/nginx/html
+
+# When the container starts, replace the env.js with values from environment variables
+CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.js && exec nginx -g 'daemon off;'"]
