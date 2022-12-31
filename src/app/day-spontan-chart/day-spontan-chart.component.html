@@ -1,0 +1,47 @@
+<div class="formgroup-inline" xmlns:p="http://www.w3.org/1999/xhtml" xmlns:p="http://www.w3.org/1999/xhtml">
+    <label for="dayDatePicker" >Tag:</label>
+    <p-calendar [readonlyInput]="true" style="margin-left: 5px;" dateFormat="dd.mm.yy" id="dayDatePicker" [(ngModel)]="selectedDate" [showIcon]="true" inputId="icon"></p-calendar>
+    <p-button style="margin-left: 5px;" (click)="onRefresh(chart)" icon="pi pi-refresh"></p-button>
+</div>
+
+<div class="row">
+    <!--<div class="col-md-9">-->
+    <div>
+        <p-chart height="65vh" #chart type="line"
+                 [data]="basicData"
+                 [options]="basicOptions">
+        </p-chart>
+    </div>
+    <!--<div class="col-md-3">
+        <p-card header="Tag gesamt:">
+
+            <div class="content">
+                <p-chart #pieChart  type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+
+
+                <div class="content table-full-width">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th>Produktion:</th>
+                            <th id = "prod" colspan="1"></th>
+                        </tr>
+                        <tr>
+                            <th>Einspeisung:</th>
+                            <th id = "feedin" colspan="1"></th>
+                        </tr>
+                        <tr>
+                            <th>Verbrauch aus Produktion:</th>
+                            <th id = "used" colspan="1"></th>
+                        </tr>
+                        <tr>
+                            <th style="border-bottom: 1px solid #ddd">Zukauf:</th>
+                            <th style="border-bottom: 1px solid #ddd" id = "buy" colspan="1"></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </p-card>
+    </div>-->
+</div>

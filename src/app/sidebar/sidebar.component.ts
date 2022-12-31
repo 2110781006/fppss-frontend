@@ -10,6 +10,7 @@ declare interface RouteInfo {
     img: string;
 }
 export const ROUTES: RouteInfo[] = [
+    { path: '/spontan-view', title: 'Tagesansicht-Spontan',  icon: 'pe-7s-graph2', class: '', img: '/assets/img/calendar-spontan.png' },
     { path: '/day-view', title: 'Tagesansicht',  icon: 'pe-7s-graph2', class: '', img: '/assets/img/calendar-hour.png' },
     { path: '/month-view', title: 'Monatsansicht',  icon: 'pe-7s-graph2', class: '', img: '/assets/img/calendar-month.png' },
     { path: '/year-view', title: 'Jahresansicht',  icon: 'pe-7s-graph2', class: '', img: '/assets/img/calendar-year.png' },

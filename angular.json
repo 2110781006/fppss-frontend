@@ -34,6 +34,7 @@
               "node_modules/jquery/dist/jquery.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
+              "node_modules/moment/moment.js",
               "node_modules/chartist/dist/chartist.js"
             ]
           },
@@ -50,6 +51,36 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "local-production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localprod.ts"
+                }
+              ]
+            },
+            "local-dev": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localdev.ts"
                 }
               ]
             },
@@ -83,7 +114,13 @@
             "development": {
               "browserTarget": "lbd-free-angular-cli:build:development"
             },
-            "defaultConfiguration": "development"
+            "local-production": {
+              "browserTarget": "lbd-free-angular-cli:build:local-production"
+            },
+            "local-dev": {
+              "browserTarget": "lbd-free-angular-cli:build:local-dev"
+            },
+            "defaultConfiguration": "local-production"
           }
         },
         "extract-i18n": {
@@ -102,6 +139,7 @@
               "node_modules/jquery/dist/jquery.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
+              "node_modules/moment/moment.js",
               "node_modules/chartist/dist/chartist.js"
             ],
             "styles": [

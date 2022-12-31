@@ -83,6 +83,24 @@ export class RestConnService {
       startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + String(c).padStart(2, "0") + "%3A00%3A00";
       endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + String(d).padStart(2, "0") + "%3A00%3A00";
     }
+    else if ( res == "spontan" )
+    {
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+
+      let start = new Date(year, month, day);
+      let end = new Date(start);
+      end.setDate(start.getDate() + 1);
+
+      let a = start.getUTCMonth() + 1;
+      let b = end.getUTCMonth() + 1;
+      let c = start.getUTCHours() ;
+      let d = end.getUTCHours() ;
+
+      startStr = start.getUTCFullYear() + "-" + String(a).padStart(2, "0") + "-" + String(start.getUTCDate()).padStart(2, "0") + "%20" + String(c).padStart(2, "0") + "%3A00%3A00";
+      endStr = end.getUTCFullYear() + "-" + String(b).padStart(2, "0") + "-" + String(end.getUTCDate()).padStart(2, "0") + "%20" + String(d).padStart(2, "0") + "%3A00%3A00";
+    }
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
