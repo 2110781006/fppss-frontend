@@ -2,13 +2,15 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {RestConnService} from "../rest-conn.service";
 import {UIChart} from "primeng/chart";
+import {MessageService} from "primeng/api";
 
 
 
 @Component({
   selector: 'app-day-chart',
   templateUrl: './day-chart.component.html',
-  styleUrls: ['./day-chart.component.scss']
+  styleUrls: ['./day-chart.component.scss'],
+  providers: [MessageService]
 })
 export class DayChartComponent implements OnInit {
 
@@ -26,7 +28,7 @@ export class DayChartComponent implements OnInit {
   pieData: any;
   pieOptions: any;
 
-  constructor(private restConn: RestConnService) { }
+  constructor(private restConn: RestConnService, private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -67,6 +69,28 @@ export class DayChartComponent implements OnInit {
     yesterday.setDate(yesterday.getDate()-1);
 
     this.selectedDate = yesterday;
+
+    this.onRefresh(this.chart);
+  }
+
+  goToLastDay()
+  {
+    let selDate : Date = new Date(this.selectedDate);
+
+    selDate.setDate(selDate.getDate()-1);
+
+    this.selectedDate = selDate;
+
+    this.onRefresh(this.chart);
+  }
+
+  goToNextDay()
+  {
+    let selDate : Date = new Date(this.selectedDate);
+
+    selDate.setDate(selDate.getDate()+1);
+
+    this.selectedDate = selDate;
 
     this.onRefresh(this.chart);
   }
@@ -194,6 +218,12 @@ export class DayChartComponent implements OnInit {
         idxFeedin = i;
         break;
       }
+    }
+
+    if ( response == null || response.length == 0  )//no entries
+    {
+      this.messageService.add({key: 'tc', severity:'error', summary: 'Fehler', detail: 'Keine Daten vorhanden: '+type});
+      return;
     }
 
     for ( let entries of response )

@@ -1,6 +1,9 @@
+<p-toast position="center" key="tc"></p-toast>
 <div class="formgroup-inline" xmlns:p="http://www.w3.org/1999/xhtml" xmlns:p="http://www.w3.org/1999/xhtml">
     <label for="datePicker" >Jahr:</label>
     <p-calendar [readonlyInput]="true" style="margin-left: 5px;" view="year" dateFormat="yy" id="datePicker" [(ngModel)]="selectedDate" [showIcon]="true" inputId="icon"></p-calendar>
+    <p-button pTooltip="Voriger Monat" style="margin-left: 5px;" (click)="goToLastYear()" icon="pi pi-caret-left"></p-button>
+    <p-button pTooltip="Nächster Monat" style="margin-left: 5px;" (click)="goToNextYear()" icon="pi pi-caret-right"></p-button>
     <p-button style="margin-left: 5px;" (click)="onRefresh(chart)" icon="pi pi-refresh"></p-button>
 </div>
 

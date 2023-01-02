@@ -32,6 +32,7 @@ import {DayChartComponent} from "../../day-chart/day-chart.component";
 import {MonthChartComponent} from "../../month-chart/month-chart.component";
 import {YearChartComponent} from "../../year-chart/year-chart.component";
 import {FullChartComponent} from "../../full-chart/full-chart.component";
+import {ToastModule} from "primeng/toast";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {FullChartComponent} from "../../full-chart/full-chart.component";
         MatDatepickerModule,
         CalendarModule,
         CardModule,
-        TableModule
+        TableModule,
+        ToastModule
     ],
   declarations: [
     HomeComponent,

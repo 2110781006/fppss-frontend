@@ -2,13 +2,13 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {RestConnService} from "../rest-conn.service";
 import {UIChart} from "primeng/chart";
-
-
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-year-chart',
   templateUrl: './year-chart.component.html',
-  styleUrls: ['./year-chart.component.scss']
+  styleUrls: ['./year-chart.component.scss'],
+  providers: [MessageService]
 })
 export class YearChartComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class YearChartComponent implements OnInit {
   pieData: any;
   pieOptions: any;
 
-  constructor(private restConn: RestConnService) { }
+  constructor(private restConn: RestConnService, private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -63,6 +63,28 @@ export class YearChartComponent implements OnInit {
     };
 
     this.selectedDate = new Date();
+
+    this.onRefresh(this.chart);
+  }
+
+  goToLastYear()
+  {
+    let selDate : Date = new Date(this.selectedDate);
+
+    selDate.setFullYear(selDate.getFullYear()-1);
+
+    this.selectedDate = selDate;
+
+    this.onRefresh(this.chart);
+  }
+
+  goToNextYear()
+  {
+    let selDate : Date = new Date(this.selectedDate);
+
+    selDate.setFullYear(selDate.getFullYear()+1);
+
+    this.selectedDate = selDate;
 
     this.onRefresh(this.chart);
   }
@@ -195,6 +217,12 @@ export class YearChartComponent implements OnInit {
 
     for ( let lbl of this.basicData.labels )//fill with empty data
       this.basicData.datasets[idx].data.push(0);
+
+    if ( response == null || response.length == 0  )//no entries
+    {
+      this.messageService.add({key: 'tc', severity:'error', summary: 'Fehler', detail: 'Keine Daten vorhanden: '+type});
+      return;
+    }
 
     for ( let entries of response )
     {

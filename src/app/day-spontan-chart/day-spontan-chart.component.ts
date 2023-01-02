@@ -3,13 +3,14 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {RestConnService} from "../rest-conn.service";
 import {UIChart} from "primeng/chart";
 import 'chartjs-adapter-moment';
-
+import {MessageService} from 'primeng/api';
 
 
 @Component({
   selector: 'app-day-spontan-chart',
   templateUrl: './day-spontan-chart.component.html',
-  styleUrls: ['./day-spontan-chart.component.scss']
+  styleUrls: ['./day-spontan-chart.component.scss'],
+  providers: [MessageService]
 })
 export class DaySpontanChartComponent implements OnInit {
 
@@ -27,7 +28,8 @@ export class DaySpontanChartComponent implements OnInit {
   pieData: any;
   pieOptions: any;
 
-  constructor(private restConn: RestConnService) { }
+
+  constructor(private restConn: RestConnService, private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -44,6 +46,9 @@ export class DaySpontanChartComponent implements OnInit {
           //stacked: true,
           type: 'time',
           time: {
+            displayFormats: {
+              hour: 'HH:00'
+            },
             unit: 'hour'
           }/*,
           ticks: {
@@ -57,6 +62,7 @@ export class DaySpontanChartComponent implements OnInit {
           //stacked: true,
           ticks: {
             color: '#501065',
+            precision: 2,
             callback: function(value, index, ticks) {
               return value+' kWh';}
           },
@@ -191,7 +197,29 @@ export class DaySpontanChartComponent implements OnInit {
         return ent.y;
     }
 
-    return -1;
+    return null;
+  }
+
+  goToLastDay()
+  {
+    let selDate : Date = new Date(this.selectedDate);
+
+    selDate.setDate(selDate.getDate()-1);
+
+    this.selectedDate = selDate;
+
+    this.onRefresh(this.chart);
+  }
+
+  goToNextDay()
+  {
+    let selDate : Date = new Date(this.selectedDate);
+
+    selDate.setDate(selDate.getDate()+1);
+
+    this.selectedDate = selDate;
+
+    this.onRefresh(this.chart);
   }
 
   addDataset(response, type, color, colorFill, minus)
@@ -203,7 +231,7 @@ export class DaySpontanChartComponent implements OnInit {
       label: type,
       backgroundColor: colorFill,
       borderColor: color,
-      borderWidth: 1,
+      borderWidth: 2,
       fill: true,
       pointRadius: 0,
       data: [],
@@ -226,6 +254,12 @@ export class DaySpontanChartComponent implements OnInit {
         idxFeedin = i;
         break;
       }
+    }
+
+    if ( response == null || response.length == 0  )//no entries
+    {
+      this.messageService.add({key: 'tc', severity:'error', summary: 'Fehler', detail: 'Keine Daten vorhanden: '+type});
+      return;
     }
 
     for ( let entries of response )
